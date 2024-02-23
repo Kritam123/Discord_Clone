@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
  
 import { useModal } from "@/hooks/use-model-store";
-import { redirect, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { UploadButton } from "@/utils/uploadthing";
 import { createServer } from "@/actions/server";

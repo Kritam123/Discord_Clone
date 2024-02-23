@@ -1,5 +1,3 @@
-import { useParams, useRouter } from "next/navigation";
-import qs from "query-string";
 import { Member, MemberRole, Server, User } from "@prisma/client";
 import { Menu, Transition } from "@headlessui/react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -20,16 +18,16 @@ interface MemberItemProps {
 const MemberItem = ({ item, server }: MemberItemProps) => {
   const [loadingId, setLoadingId] = useState("");
   const { onOpen } = useModal();
-  const { serverId } = useParams();
   const roleIconMap = {
     GUEST: null,
     MODERATOR: <GoShieldCheck className="h-4 w-4 ml-2 text-indigo-500" />,
     ADMIN: <LuShieldAlert className="h-4 w-4 text-rose-500" />,
   };
+  let serverId = server.id;
   const onKick = async (memberId: string) => {
     try {
       setLoadingId(memberId);
-      const response = await onKickAction(serverId as any, memberId);
+      const response = await onKickAction(serverId, memberId);
       toast.success("kicked user..")
       onOpen("members", { server: response as any });
     } catch (error) {
@@ -41,7 +39,7 @@ const MemberItem = ({ item, server }: MemberItemProps) => {
   const onRoleChange = async (memberId: string, role: MemberRole) => {
     try {
       setLoadingId(memberId);
-      const response = await roleChangeAction(serverId as any, memberId,role);
+      const response = await roleChangeAction(serverId , memberId,role);
       toast.success("update user")
       onOpen("members", { server: response as any });
     } catch (error) {

@@ -13,12 +13,13 @@ import { toast } from "sonner";
 import CreateChannelDropDown from '../CreateChannelDropDown';
 import { createChannel } from '@/actions/channel';
 const CreateChannel = () => {
-  const { isOpen, type, onClose } = useModal();
+  const { isOpen, type, onClose,data } = useModal();
+  const {server} = data;
   const [name, setName] = React.useState<string>("");
   const [selected, setSelected] = React.useState("TEXT");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const isModalOpen = isOpen && type === "createChannel";
-  const { serverId } = useParams();
+  let serverId = server?.id
   const handleCreateChannel = async () => {
     setIsLoading(true);
     try {
