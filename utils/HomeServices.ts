@@ -1,4 +1,4 @@
-import {MdArrowForwardIos} from "react-icons/md"
+
 
 export const drawerItem = [
     {
@@ -20,7 +20,7 @@ export const drawerItem = [
     {
         name:"Safety",
         href:"/",
-        icon:MdArrowForwardIos
+    
     },
     {
         name:"Support",

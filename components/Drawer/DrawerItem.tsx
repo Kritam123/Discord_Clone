@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import {drawerItem} from "@/utils/HomeServices"
  import clsx from "clsx";
-
+ import {MdArrowForwardIos} from "react-icons/md"
 
 const DrawerItem = () => {
   return (
@@ -15,7 +15,7 @@ const DrawerItem = () => {
                         <span>
                         {item.name}
                         </span>
-                       { item.name =="Safety" && <item.icon className="w-3 h-3"/>}
+                       {  item.name =="Safety" && <MdArrowForwardIos className="w-3 h-3"/>}
                     </Link>
                 </div>
             ))
