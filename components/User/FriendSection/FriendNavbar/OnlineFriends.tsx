@@ -10,7 +10,7 @@ const FriendAll = () => {
           src={"/images/b36de980b174d7b798c89f35c116e5c6.svg"}
           alt="svg"
         />
-        <span className="dark:text-gray-400 text-gray-700 font-medium">No one's around to play with Wumpus.</span>
+        <span className="dark:text-gray-400 text-gray-700 font-medium">No one&apos;s around to play with Wumpus.</span>
     
         </div>
   )

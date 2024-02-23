@@ -26,7 +26,7 @@ const EditServer = () => {
             setImage(server?.imgUrl);
             setName(server?.name);
         }
-    }, [server?.imgUrl, server?.name]);
+    }, [server]);
 
     const updateServerHandler = async () => {
         setIsLoading(true);

@@ -10,7 +10,7 @@ const Blocked = () => {
           src={"/images/8c998f8fb62016fcfb4901e424ff378b.svg"}
           alt="svg"
         />
-        <span className="dark:text-gray-400 text-gray-700 font-medium">You can't unblock the Wumpus.</span>
+        <span className="dark:text-gray-400 text-gray-700 font-medium">You can&apos;t unblock the Wumpus.</span>
     
         </div>
   )

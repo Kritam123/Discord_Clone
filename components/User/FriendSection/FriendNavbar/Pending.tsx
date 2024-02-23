@@ -17,7 +17,7 @@ const Pending = ({ profile }: { profile: User }) => {
           src={"/images/b36c705f790dad253981f1893085015a.svg"}
           alt="svg"
         />
-        <span className="dark:text-gray-400 text-gray-700 font-medium">There are no pending friend requests.Here's Wumpus for now.</span>
+        <span className="dark:text-gray-400 text-gray-700 font-medium">There are no pending friend requests.Here&apos;s Wumpus for now.</span>
       </div>
     </>
   )

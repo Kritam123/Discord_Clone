@@ -38,7 +38,7 @@ const SearchChannel = () => {
                 <DialogHeader>
                     <DialogTitle className="mt-5 text-center text-2xl font-bold">   Search Channels</DialogTitle>
                     <DialogDescription className="text-center  leading-4 text-gray-500 mt-3 text-sm">
-                       Search What's you want ?
+                       Search What&apos;s you want ?
                     </DialogDescription>
                 </DialogHeader>
                 <div className="mt-10">

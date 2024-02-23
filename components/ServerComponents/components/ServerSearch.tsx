@@ -30,7 +30,7 @@ const ServerSearch = ({ server, data }: ServerSearchProps) => {
 
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down)
-  }, []);
+  }, [data,onOpen,server]);
 
 
   return (

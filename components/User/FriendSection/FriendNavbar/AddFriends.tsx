@@ -60,7 +60,7 @@ const AddFriends = ({ user }: any) => {
                   src={"/images/b5eb2f7d6b3f8cc9b60be4a5dcf28015.svg"}
                   alt="svg"
                 />
-                <span className="dark:text-gray-400 text-gray-700 font-medium"> Wumpus is waiting on friends.You don't have to though!</span>
+                <span className="dark:text-gray-400 text-gray-700 font-medium"> Wumpus is waiting on friends.You don&apos;t have to though!</span>
               </div>
             </>
           )
