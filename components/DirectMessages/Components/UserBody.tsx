@@ -11,7 +11,7 @@ const UserBody = () => {
         <MessagesBox/>
       </div>
       <div className="flex-1 flex w-full ">
-        <UserProfileBox/>
+        {/* <UserProfileBox/> */}
       </div>
 
     </div>
