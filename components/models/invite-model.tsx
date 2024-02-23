@@ -12,7 +12,6 @@ import { useOrigin } from '@/hooks/use-origin';
 import { MdOutlineLibraryAddCheck } from 'react-icons/md';
 import { BiCopy } from 'react-icons/bi';
 import { newInviteCode } from '@/actions/server';
-import { useParams } from 'next/navigation';
 
 const InviteModel = () => {
     const { isOpen, data, type, onOpen, onClose } = useModal();
@@ -22,7 +21,6 @@ const InviteModel = () => {
     const isModalOpen = isOpen && type === "invite";
     const [copied, setCopied] = useState(false);
     const inviteUrl = `${origin}/invite/${server?.inviteCode}`;
-    const { serverId } = useParams();
     const onCopy = () => {
         navigator.clipboard.writeText(inviteUrl);
         setCopied(true);
@@ -33,7 +31,7 @@ const InviteModel = () => {
     const onNew = async () => {
         try {
             setIsLoading(true);
-            const response = await newInviteCode(serverId as any); 
+            const response = await newInviteCode(server?.id as any); 
             onOpen("invite", { server: response as any });
             toast.success("New InviteCode...")
         } catch (error) {
