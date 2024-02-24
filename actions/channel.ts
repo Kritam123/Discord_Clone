@@ -8,14 +8,14 @@ export const createChannel = async (
   serverId: string
 ) => {
   await ChannelCreateApi(serverId, name, selected);
-  revalidatePath(`/channels/${serverId}`);
+  revalidatePath(`/servers/${serverId}`);
 };
 export const deleteChannelAction = async (
   serverId: string,
   channelId: string
 ) => {
   const response =  await ChannelDeleteApi(serverId, channelId);
-  revalidatePath(`/channels/${serverId}`);
+  revalidatePath(`/servers/${serverId}`);
   return response;
 };
 export const updateChannelAction = async (
@@ -25,6 +25,6 @@ export const updateChannelAction = async (
   selected:string
 ) => {
   const response =  await ChannelUpdateApi(serverId, channelId,name,selected);
-  revalidatePath(`/channels/${serverId}`);
+  revalidatePath(`/servers/${serverId}`);
   return response;
 };

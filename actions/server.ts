@@ -9,18 +9,18 @@ export const createServer = async(name:string,image:string)=>{
 }
 export const updateServerAction = async(serverId:string,name:string,image:string)=>{
     const result = await updateServerApi(serverId,name,image);
-    revalidatePath(`/channels/${serverId}`);
+    revalidatePath(`/servers/${serverId}`);
     return result;
 }
 
 export const newInviteCode = async (serverId:string) => {
     const response = await newInviteCodeApi(serverId);
-    revalidatePath(`/channels/${serverId}`);
+    revalidatePath(`/servers/${serverId}`);
     return response;
 }
 export const deleteServerAction = async (serverId:string) => {
     const response = await deleteServerApi(serverId);
-    revalidatePath(`/channels/${serverId}`);
+    revalidatePath(`/servers/${serverId}`);
     revalidatePath(`/channels/me`);
     return response;
 }

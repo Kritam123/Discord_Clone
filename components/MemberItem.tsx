@@ -49,7 +49,7 @@ const MemberItem = ({ item, server }: MemberItemProps) => {
     }
   }
   return (
-    <div className="flex justify-between items-center hover:bg-gray-200 cursor-pointer px-2 py-2 rounded-md ">
+    <div className="flex justify-between items-center dark:hover:bg-gray-700 hover:bg-gray-200 cursor-pointer px-2 py-2 rounded-md ">
       <div className="flex gap-x-2 items-center">
         <Avatar>
           <AvatarImage className="w-10 h-10" src={item.profile.image!} />
@@ -80,12 +80,12 @@ const MemberItem = ({ item, server }: MemberItemProps) => {
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <Menu.Items className="absolute right-0 mt-2 w-36  origin-center divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute right-0 mt-2 w-36  origin-center divide-y divide-gray-100 rounded-md dark:bg-black bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
               <div className="px-1 py-1 ">
                 <Menu.Item>
                   <button
                     onClick={() => onRoleChange(item.id, "GUEST")}
-                    className="flex hover:bg-gray-200 w-full items-center px-1 py-1  ">
+                    className="flex dark:hover:bg-gray-700 hover:bg-gray-200 w-full items-center px-1 py-1  ">
                     <GoShieldCheck className="h-4 w-4 mr-2" />
                     <span className="flex gap-x-2 items-center">
                       Guest
@@ -99,7 +99,7 @@ const MemberItem = ({ item, server }: MemberItemProps) => {
                 <Menu.Item>
                   <button
                     onClick={() => onRoleChange(item.id, "MODERATOR")}
-                    className="flex items-center px-1 py-1  hover:bg-gray-200 w-full ">
+                    className="flex items-center px-1 py-1 dark:hover:bg-gray-700  hover:bg-gray-200 w-full ">
                     <GoShieldCheck className="h-4 w-4 mr-2 text-indigo-500" />
                     <span className="flex items-center gap-x-1" >
                       Moderator
@@ -113,7 +113,7 @@ const MemberItem = ({ item, server }: MemberItemProps) => {
                 <Menu.Item>
                   <button
                     onClick={() => onKick(item.id)}
-                    className="flex items-center hover:bg-gray-200 w-full px-1 py-1 ">
+                    className="flex items-center dark:hover:bg-gray-700 hover:bg-gray-200 w-full px-1 py-1 ">
                     <HiUserRemove className="h-4 w-4 mr-2 text-rose-800" />
                     <span>kick</span>
                   </button>
