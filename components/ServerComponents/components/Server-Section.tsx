@@ -29,7 +29,7 @@ const ServerSection = ({
   {role !== MemberRole.GUEST && sectionType === "channels" && (
     <TooltipContext content="Create Channel" >
       <button
-        onClick={() => onOpen("createChannel", { channelType,server:server })}
+        onClick={() => onOpen("createChannel", { channelType ,server})}
         className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
       >
         <AiOutlinePlus className="h-4 w-4" />
