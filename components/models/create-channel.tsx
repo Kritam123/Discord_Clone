@@ -11,7 +11,6 @@ import {
 import { useModal } from "@/hooks/use-model-store";
 import { toast } from "sonner";
 import CreateChannelDropDown from '../CreateChannelDropDown';
-import { createChannel } from '@/actions/channel';
 import axios from 'axios';
 const CreateChannel = () => {
   const { isOpen, type, onClose,data } = useModal();

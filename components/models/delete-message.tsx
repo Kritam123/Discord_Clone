@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/use-model-store";
 import { toast } from "sonner";
-import { deleteChannelAction } from "@/actions/channel";
 import qs from "query-string";
 import axios from "axios";
 
