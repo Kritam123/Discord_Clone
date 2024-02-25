@@ -35,6 +35,8 @@ interface ModalData {
   channelType?: ChannelType;
   apiUrl?: string;
   query?: Record<string, any>;
+  socketUrl?:string
+  socketQuery?:Record<string, any>;
 }
 
 interface ModalStore {

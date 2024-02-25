@@ -17,6 +17,8 @@ interface ServerChannelProps {
   channel: Channel;
   server: Server;
   role?: MemberRole;
+  socketUrl?:string,
+  socketQuery?:{serverId:string,channelId:string}
 }
 const iconMap = {
   [ChannelType.TEXT]: BiHash,
@@ -26,7 +28,9 @@ const iconMap = {
 const ServerChannel = ({
   channel,
   server,
-  role
+  role,
+socketQuery,
+socketUrl
 }: ServerChannelProps) => {
   const { onOpen } = useModal();
   const params = useParams();
@@ -35,7 +39,6 @@ const ServerChannel = ({
   const onClick = () => {
     router.push(`/servers/${params?.serverId}/channels/${channel.id}`)
   }
-
   return (
     <button
       onClick={onClick}
@@ -57,7 +60,7 @@ const ServerChannel = ({
         <div className="ml-auto flex items-center gap-x-2">
           <TooltipContext content='Edit'>
             <FaEdit
-              onClick={() => onOpen("editChannel", { server, channel })}
+              onClick={() => onOpen("editChannel", { server, channel,socketQuery,socketUrl })}
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
             />
           </TooltipContext>
@@ -65,7 +68,7 @@ const ServerChannel = ({
 
           <TooltipContext content='Delete'>
             <BsTrash
-              onClick={() => onOpen("deleteChannel", { channel, server })}
+              onClick={() => onOpen("deleteChannel", { channel, server,socketQuery,socketUrl })}
               className="hidden group-hover:block w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
             />
           </TooltipContext>

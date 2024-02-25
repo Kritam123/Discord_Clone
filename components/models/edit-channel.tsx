@@ -1,5 +1,5 @@
 'use client'
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import {
   Dialog,
   DialogContent,
@@ -10,27 +10,31 @@ import {
 import { useModal } from "@/hooks/use-model-store";
 import { toast } from "sonner";
 import CreateChannelDropDown from '../CreateChannelDropDown';
-import { updateChannelAction } from '@/actions/channel';
+import qs from 'query-string';
+import axios from 'axios';
 const EditChannel = () => {
-  const { isOpen, type, onClose,data } = useModal();
+  const { isOpen, type, onClose, data } = useModal();
   const [name, setName] = React.useState<string>("");
   const [selected, setSelected] = React.useState("TEXT");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const isModalOpen = isOpen && type === "editChannel";
- const {server,channel} = data;
- const serverId = server?.id;
- const channelId = channel?.id;
+  const {  channel, socketUrl, socketQuery } = data;
+  const channelId = channel?.id;
   const handleEditChannel = async () => {
     setIsLoading(true);
-    try { 
-      await updateChannelAction(serverId as any ,channelId as string ,name, selected );
+    try {
+      const url = qs.stringifyUrl({
+        url: `${socketUrl}/${channelId}`,
+        query: socketQuery
+      })
+      await axios.patch(url, { name, type: selected })
       toast.success("Channel Updated...");
       setName("");
       setSelected("");
       onClose();
     } catch (error) {
       console.log(error);
-      toast.error("something went wrong!")
+      toast.error("something went wrong!");
     } finally {
       setIsLoading(false);
     }
@@ -38,18 +42,18 @@ const EditChannel = () => {
   }
   useEffect(() => {
     if (channel) {
-    setName( channel.name);
-     setSelected(channel?.type as any);
+      setName(channel.name);
+      setSelected(channel?.type as any);
     }
-   }, [ channel]);
+  }, [channel]);
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="mt-5 text-center text-2xl font-bold">   Edit a Channel</DialogTitle>
           <DialogDescription className="text-center  leading-4 text-gray-500 mt-3 text-sm">
-          Edit Channel is ${channel?.name}. Make Your and
-              start talking.
+            Edit Channel is ${channel?.name}. Make Your and
+            start talking.
           </DialogDescription>
         </DialogHeader>
         <div className="px-3 py2 mt-8">

@@ -11,6 +11,8 @@ interface ServerSectionProps {
   sectionType: "channels" | "members";
   channelType?: ChannelType;
   server?: ServerWithMembersWithProfiles;
+  socketUrl?:string,
+  socketQuery?:{serverId:string}
 }
 const ServerSection = ({
   label,
@@ -18,10 +20,11 @@ const ServerSection = ({
   sectionType,
   channelType,
   server,
+  socketUrl,
+  socketQuery
 }: ServerSectionProps) => {
   const { onOpen } = useModal();
-  return  (
-  
+  return  ( 
   <div className="flex items-center w-full justify-between py-2">
   <p className="text-xs uppercase font-semibold text-zinc-500 dark:text-zinc-400">
     {label}
@@ -29,7 +32,7 @@ const ServerSection = ({
   {role !== MemberRole.GUEST && sectionType === "channels" && (
     <TooltipContext content="Create Channel" >
       <button
-        onClick={() => onOpen("createChannel", { channelType ,server})}
+        onClick={() => onOpen("createChannel", { channelType ,server,socketUrl,socketQuery})}
         className="text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition"
       >
         <AiOutlinePlus className="h-4 w-4" />

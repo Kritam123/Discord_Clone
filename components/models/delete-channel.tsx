@@ -9,21 +9,28 @@ import {
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/use-model-store";
 import { toast } from "sonner";
-import { deleteChannelAction } from "@/actions/channel";
+import { useRouter } from "next/navigation";
+import qs from "query-string";
+import axios from "axios";
 
 const DeleteChannel = ()=>{
     const { isOpen, type, onClose, data } = useModal();
     const isModalOpen = isOpen && type === "deleteChannel";
-    const { server,channel } = data;
+    const { server,channel,socketUrl,socketQuery } = data;
     const serverId = server?.id;
-    const channelId = channel?.id;
+   const router =   useRouter()
     const [isLoading, setIsLoading] = React.useState(false);
     const handleDeleteChannel = async () => {
         try {
-           const response =   await deleteChannelAction(serverId as string,channelId as string);
-            setIsLoading(true);
+          setIsLoading(true);
+            const url = qs.stringifyUrl({
+              url:`${socketUrl}/${channel?.id}`,
+              query:socketQuery
+            })
+            await axios.delete(url);
             onClose();
-           response &&  toast.success(`Delete Channel ${channel?.name}`)
+            router.push(`/servers/${serverId}`);
+           toast.success(`Delete Channel ${channel?.name}`)
         } catch (error) {
             console.log(error);
         } finally {

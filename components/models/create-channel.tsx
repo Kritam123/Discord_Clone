@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import qs from "query-string";
 import {
   Dialog,
   DialogContent,
@@ -8,13 +9,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useModal } from "@/hooks/use-model-store";
-import {  useParams } from "next/navigation";
 import { toast } from "sonner";
 import CreateChannelDropDown from '../CreateChannelDropDown';
 import { createChannel } from '@/actions/channel';
+import axios from 'axios';
 const CreateChannel = () => {
   const { isOpen, type, onClose,data } = useModal();
-  const {server} = data;
+  const {server,socketUrl,socketQuery} = data;
   const [name, setName] = React.useState<string>("");
   const [selected, setSelected] = React.useState("TEXT");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -23,7 +24,12 @@ const CreateChannel = () => {
   const handleCreateChannel = async () => {
     setIsLoading(true);
     try {
-      await createChannel(name, selected, serverId as any);
+      const url = qs.stringifyUrl({
+        url: socketUrl || "",
+        query:socketQuery,
+      });
+      await axios.post(url,{name,type:selected});
+      // await createChannel(name, selected, serverId as any);
       toast.success("Channel Created...");
       setName("");
       setSelected("");

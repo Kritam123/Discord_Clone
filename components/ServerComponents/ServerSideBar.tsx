@@ -6,17 +6,17 @@ import { LuShieldAlert } from "react-icons/lu";
 import { BiHash, BiSolidVideo } from "react-icons/bi";
 import ServerSearch from "./components/ServerSearch";
 import ServerSection from "./components/Server-Section";
-import ServerChannel from "./components/ServerChannel";
 import ServerMember from "./components/ServerMember";
 import { currentProfile } from "@/lib/getCurrentUser";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { Separator } from "../ui/separator";
 import UserFooter from "../User/components/UserFooter";
+import ServerChannels from "./components/ServerChannels";
 interface ServerSidebarProps {
   serverId: string;
 }
-const ServerSideBar= async ({ serverId }:ServerSidebarProps) => {
+const ServerSideBar = async ({ serverId }: ServerSidebarProps) => {
   const iconMap = {
     [ChannelType.TEXT]: <BiHash className="mr-2 h-4 w-4" />,
     [ChannelType.AUDIO]: <BsFillMicFill className="mr-2 h-4 w-4" />,
@@ -85,8 +85,8 @@ const ServerSideBar= async ({ serverId }:ServerSidebarProps) => {
       <Header server={server} role={role} />
       <div className="overflow-auto h-full flex-1 px-3">
         <div className="mt-2">
-        <ServerSearch
-        server={server}
+          <ServerSearch
+            server={server}
             data={[
               {
                 label: "Text Channels",
@@ -128,70 +128,14 @@ const ServerSideBar= async ({ serverId }:ServerSidebarProps) => {
           />
         </div>
         <Separator className=" bg-[#f2f2f2]  dark:bg-zinc-700 rounded-md my-2" />
-        {!!textChannels?.length && (
-          <div className="mb-2">
-            <ServerSection
-              sectionType="channels"
-              channelType={ChannelType.TEXT}
-              role={role}
-              label="Text Channels"
-              server={server}
-            />
-            <div className="space-y-[2px]">
-              {textChannels.map((channel) => (
-                <ServerChannel
-                  key={channel.id}
-                  channel={channel}
-                  role={role}
-                  server={server}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-          {!!audioChannels?.length && (
-          <div className="mb-2">
-            <ServerSection
-              sectionType="channels"
-              channelType={ChannelType.AUDIO}
-              role={role}
-              label="Voice Channels"
-              server={server}
-            />
-            <div className="space-y-[2px]">
-              {audioChannels.map((channel) => (
-                <ServerChannel
-                  key={channel.id}
-                  channel={channel}
-                  role={role}
-                  server={server}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-        {!!videoChannels?.length && (
-          <div className="mb-2">
-            <ServerSection
-              sectionType="channels"
-              channelType={ChannelType.VIDEO}
-              role={role}
-              label="Video Channels"
-              server={server}
-            />
-            <div className="space-y-[2px]">
-              {videoChannels.map((channel) => (
-                <ServerChannel
-                  key={channel.id}
-                  channel={channel}
-                  role={role}
-                  server={server}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-         {!!members?.length && (
+        <ServerChannels
+          textChannels={textChannels}
+          audioChannels={audioChannels}
+          videoChannels={videoChannels}
+          server={server}
+          role={role}
+        />
+        {!!members?.length && (
           <div className="mb-2">
             <ServerSection
               sectionType="members"
@@ -211,7 +155,7 @@ const ServerSideBar= async ({ serverId }:ServerSidebarProps) => {
           </div>
         )}
       </div>
-      <UserFooter  user={profile}/>
+      <UserFooter user={profile} />
     </div>
   );
 };

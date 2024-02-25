@@ -30,6 +30,7 @@ const MemberItem = ({ item, server }: MemberItemProps) => {
       const response = await onKickAction(serverId, memberId);
       toast.success("kicked user..")
       onOpen("members", { server: response as any });
+
     } catch (error) {
       console.log(error);
     } finally {
@@ -39,7 +40,7 @@ const MemberItem = ({ item, server }: MemberItemProps) => {
   const onRoleChange = async (memberId: string, role: MemberRole) => {
     try {
       setLoadingId(memberId);
-      const response = await roleChangeAction(serverId , memberId,role);
+      const response = await roleChangeAction(serverId, memberId, role);
       toast.success("update user")
       onOpen("members", { server: response as any });
     } catch (error) {
