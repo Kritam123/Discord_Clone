@@ -9,6 +9,7 @@ import { currentProfile } from "@/lib/getCurrentUser";
 import Chatheader from "@/components/chat/Chatheader";
 import ChatMessages from "@/components/chat/ChatMessages";
 import ChatInput from "@/components/chat/ChatInput";
+import { MediaRoom } from "@/components/media-room";
 
 interface ChannelIdPageProps {
   params: {
@@ -77,20 +78,20 @@ const ChannelIdPage = async ({
           />
         </>
       )}
-      {/* {channel.type === ChannelType.AUDIO && (
+      {channel.type === ChannelType.AUDIO && (
         <MediaRoom
           chatId={channel.id}
           video={false}
           audio={true}
         />
-      )} */}
-      {/* {channel.type === ChannelType.VIDEO && (
+      )}
+      {channel.type === ChannelType.VIDEO && (
         <MediaRoom
           chatId={channel.id}
           video={true}
           audio={true}
         />
-      )} */}
+      )}
     </div>
    );
 }
