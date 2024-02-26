@@ -211,7 +211,7 @@ export const ChatItem = ({
             <TooltipContext content="Edit">
               <FaEdit
                 onClick={() => setIsEditing(true)}
-                className="cursor-pointer ml-auto w-4 h-4 dark:hover:text-zinc-300 hover:text-zinc-700 text-zinc-800 transition"
+                className="cursor-pointer ml-auto w-4 h-4 dark:text-white dark:hover:text-zinc-300 hover:text-zinc-700 text-zinc-800 transition"
               />
             </TooltipContext>
           )}
@@ -223,7 +223,7 @@ export const ChatItem = ({
                   query: socketQuery,
                 })
               }
-              className="cursor-pointer ml-auto w-4 h-4 dark:hover:text-zinc-300 hover:text-zinc-700 text-zinc-800 transition"
+              className="cursor-pointer ml-auto w-4 h-4  dark:text-white dark:hover:text-zinc-300 hover:text-zinc-700 text-zinc-800 transition"
             />
           </TooltipContext>
         </div>

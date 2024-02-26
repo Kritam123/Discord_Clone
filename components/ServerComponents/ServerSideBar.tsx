@@ -1,13 +1,12 @@
 import React from "react";
 import Header from "./components/Header";
-import { ChannelType, MemberRole } from "@prisma/client";
+import { ChannelType, MemberRole, User } from "@prisma/client";
 import { BsShieldCheck, BsFillMicFill } from "react-icons/bs";
 import { LuShieldAlert } from "react-icons/lu";
 import { BiHash, BiSolidVideo } from "react-icons/bi";
 import ServerSearch from "./components/ServerSearch";
 import ServerSection from "./components/Server-Section";
 import ServerMember from "./components/ServerMember";
-import { currentProfile } from "@/lib/getCurrentUser";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { Separator } from "../ui/separator";
@@ -15,8 +14,9 @@ import UserFooter from "../User/components/UserFooter";
 import ServerChannels from "./components/ServerChannels";
 interface ServerSidebarProps {
   serverId: string;
+  profile: User
 }
-const ServerSideBar = async ({ serverId }: ServerSidebarProps) => {
+const ServerSideBar = async ({ serverId, profile }: ServerSidebarProps) => {
   const iconMap = {
     [ChannelType.TEXT]: <BiHash className="mr-2 h-4 w-4" />,
     [ChannelType.AUDIO]: <BsFillMicFill className="mr-2 h-4 w-4" />,
@@ -32,13 +32,6 @@ const ServerSideBar = async ({ serverId }: ServerSidebarProps) => {
       <LuShieldAlert className="h-4 w-4 mr-2 text-rose-500" />
     ),
   };
-
-  const profile = await currentProfile();
-
-  if (!profile) {
-    return redirect("/sign-in");
-  }
-
   const server = await db.server.findUnique({
     where: {
       id: serverId,
@@ -134,28 +127,13 @@ const ServerSideBar = async ({ serverId }: ServerSidebarProps) => {
           videoChannels={videoChannels}
           server={server}
           role={role}
+          apiUrl="/api/channels"
+          members= {members}
+          profileId={profile.id}
         />
-        {!!members?.length && (
-          <div className="mb-2">
-            <ServerSection
-              sectionType="members"
-              role={role}
-              label="Members"
-              server={server}
-            />
-            <div className="space-y-[2px]">
-              {members.map((member) => (
-                <ServerMember
-                  key={member.id}
-                  member={member}
-                  server={server}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+
       </div>
-      <UserFooter user={profile} />
+      <UserFooter user={profile}/>
     </div>
   );
 };

@@ -28,9 +28,12 @@ const SearchChannel = () => {
                     .includes(query.toLowerCase().replace(/\s+/g, ""))
             );
     const isModalOpen = isOpen && type === "searchannel";
-    const handlePushChannel = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>,id:string)=>{
+    const handlePushChannel = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>,id:string,ChannelType:string)=>{
         e.preventDefault();
-        router.push(`/channels/${server?.id}/${id}`)
+        if(ChannelType === "channel"){
+            router.push(`/servers/${server?.id}/channels/${id}`);
+        }
+        router.push(`/servers/${server?.id}/conversation/${id}`);
     }
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose}>
@@ -91,7 +94,7 @@ const SearchChannel = () => {
                                                                 {item.label}
                                                             </span>
                                                             <button
-                                                            onClick={(e)=>handlePushChannel(e,id)}
+                                                            onClick={(e)=>handlePushChannel(e,id,item.type)}
                                                                 className={` flex gap-1  items-center truncate ${selected ? "font-medium" : "font-normal"
                                                                     }`}
                                                             >

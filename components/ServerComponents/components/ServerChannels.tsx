@@ -1,28 +1,60 @@
 'use client'
-import React, { useEffect, useState } from 'react'
 import ServerChannel from './ServerChannel'
 import ServerSection from './Server-Section'
-import { Channel, ChannelType, MemberRole } from '@prisma/client'
+import { Channel, ChannelType, Member, MemberRole, User } from '@prisma/client'
 import { ServerWithMembersWithProfiles } from '@/types'
 import { useChannelSocket } from '@/hooks/use-channel-socket'
-
+import { useChannelsQuery } from '@/hooks/use-channel-query'
+import { useEffect } from 'react'
+import ServerMember from './ServerMember'
+type MembersWithProfile = Member & {
+    Profile: User
+}[]
 interface ServerChannelsProps {
     textChannels: Channel[] | undefined
     audioChannels: Channel[] | undefined
     videoChannels: Channel[] | undefined
     server: ServerWithMembersWithProfiles
     role: MemberRole | undefined
+    apiUrl: string
+    profileId: string
+    members: any
 }
 const ServerChannels = ({
     audioChannels: audioChannelsFromSideBar,
     role,
     server,
     textChannels: textChannelsFromSideBar,
-    videoChannels: videoChannelsFromSideBar
+    videoChannels: videoChannelsFromSideBar,
+    apiUrl,
+    profileId,
+    members: MembersFromSideBar
 }: ServerChannelsProps) => {
     const channelKey = `server:${server.id}:channel`;
+    const queryKey = `server:${server.id}`;
     const channelupdatekey = `server:${server.id}:channel:update`;
-    const { audioChannels, textChannels, videoChannels } = useChannelSocket({ channelKey,channelupdatekey });
+    const { data } = useChannelsQuery({
+        apiUrl,
+        queryKey,
+        serverId: server.id
+    });
+    if (data) {
+        textChannelsFromSideBar = data?.channels.filter(
+            (channel: Channel) => channel.type === ChannelType.TEXT
+        );
+        audioChannelsFromSideBar = data?.channels.filter(
+            (channel: Channel) => channel.type === ChannelType.AUDIO
+        );
+        videoChannelsFromSideBar = data?.channels.filter(
+            (channel: Channel) => channel.type === ChannelType.VIDEO
+        );
+        MembersFromSideBar = data?.members.filter(
+            (member: any) => member.userId !== profileId
+        );
+    }
+
+    const { audioChannels, textChannels, videoChannels, members } = useChannelSocket({ channelKey, channelupdatekey, profileId });
+
     return (
         <>
             {
@@ -59,7 +91,7 @@ const ServerChannels = ({
                     </>
                 )
                     :
-                    ( 
+                    (
                         !!textChannelsFromSideBar?.length &&
                         <>
                             <div className="mb-2">
@@ -195,7 +227,7 @@ const ServerChannels = ({
                     </>
 
                 )
-                : ( !!videoChannelsFromSideBar?.length &&
+                : (!!videoChannelsFromSideBar?.length &&
                     <>
                         <div className="mb-2">
                             <ServerSection
@@ -226,6 +258,46 @@ const ServerChannels = ({
                             </div>
                         </div>
                     </>
+                )
+            }
+            {!!members?.length ? (
+                <div className="mb-2">
+                    <ServerSection
+                        sectionType="members"
+                        role={role}
+                        label="Members"
+                        server={server}
+                    />
+                    <div className="space-y-[2px]">
+                        {members.map((member: any) => (
+                            <ServerMember
+                                key={member.id}
+                                member={member}
+                                server={server}
+                            />
+                        ))}
+                    </div>
+                </div>
+            ) :
+                (!!MembersFromSideBar.length &&
+
+                    <div className="mb-2">
+                        <ServerSection
+                            sectionType="members"
+                            role={role}
+                            label="Members"
+                            server={server}
+                        />
+                        <div className="space-y-[2px]">
+                            {MembersFromSideBar?.map((member: any) => (
+                                <ServerMember
+                                    key={member.id}
+                                    member={member}
+                                    server={server}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 )
             }
         </>

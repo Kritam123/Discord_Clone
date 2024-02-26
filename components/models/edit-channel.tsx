@@ -12,14 +12,17 @@ import { toast } from "sonner";
 import CreateChannelDropDown from '../CreateChannelDropDown';
 import qs from 'query-string';
 import axios from 'axios';
+import { useChannelsQuery } from '@/hooks/use-channel-query';
 const EditChannel = () => {
   const { isOpen, type, onClose, data } = useModal();
   const [name, setName] = React.useState<string>("");
   const [selected, setSelected] = React.useState("TEXT");
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const isModalOpen = isOpen && type === "editChannel";
-  const {  channel, socketUrl, socketQuery } = data;
+  const { channel, socketUrl, socketQuery, server } = data;
   const channelId = channel?.id;
+  const serverId = server?.id;
+
   const handleEditChannel = async () => {
     setIsLoading(true);
     try {

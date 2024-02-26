@@ -26,13 +26,12 @@ const layout = async ({ children, params }: {
   });
 
   if (!server) {
-    return redirect("/");
+    return redirect("/channels/me");
   }
-
   return (
     <Sidebar>
       <div className=" lg:flex h-full">
-        <ServerSideBar serverId={params.serverId} />
+        <ServerSideBar  profile={profile} serverId={server.id} />
         <div className="ml-60 border w-[calc(100%-240px)] h-screen">
           {children}
         </div>

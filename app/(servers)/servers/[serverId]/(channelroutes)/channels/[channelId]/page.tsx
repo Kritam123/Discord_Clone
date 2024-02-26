@@ -1,15 +1,13 @@
 import { redirectToSignIn } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { ChannelType } from "@prisma/client";
-// import { ChatInput } from "@/components/chat/chat-input";
-// import { ChatMessages } from "@/components/chat/chat-messages";
-// import { MediaRoom } from "@/components/media-room";
 import { db } from "@/lib/db";
 import { currentProfile } from "@/lib/getCurrentUser";
 import Chatheader from "@/components/chat/Chatheader";
 import ChatMessages from "@/components/chat/ChatMessages";
 import ChatInput from "@/components/chat/ChatInput";
 import { MediaRoom } from "@/components/media-room";
+import { revalidatePath } from "next/cache";
 
 interface ChannelIdPageProps {
   params: {
@@ -31,6 +29,7 @@ const ChannelIdPage = async ({
     where: {
       id: params.channelId,
     },
+    
   });
 
   const member = await db.member.findFirst({
@@ -38,12 +37,13 @@ const ChannelIdPage = async ({
       serverId: params.serverId,
       userId: profile.id,
     }
+    
   });
-
   if (!channel || !member) {
     redirect("/");
   }
-
+  
+  revalidatePath(`server/${params.serverId}/${params.channelId}`)
   return ( 
     <div className=" bg-white dark:bg-[#313338]  flex flex-col h-full">
       <Chatheader

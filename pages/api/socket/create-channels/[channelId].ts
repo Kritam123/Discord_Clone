@@ -91,11 +91,17 @@ export default async function handler(
         },
         include: {
           channels: true,
+          members:{
+            include:{
+              profile:true
+            }
+          }
         },
       });
       const channelupdateKey = `server:${server.id}:channel`;
       res?.socket?.server?.io?.emit(channelupdateKey, server);
       return res.status(200).json(server);
+
     }
     if (req.method === "PATCH") {
       const server = await db.server.update({
@@ -128,6 +134,11 @@ export default async function handler(
         },
         include: {
           channels: true,
+          members:{
+            include:{
+              profile:true
+            }
+          }
         },
       });
       const channelupdateKey = `server:${server.id}:channel`;

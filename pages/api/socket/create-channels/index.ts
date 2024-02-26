@@ -3,6 +3,7 @@ import { NextApiResponseServerIo } from "@/types";
 import { currentProfilePages } from "@/lib/getCurrentUser_Page";
 import { db } from "@/lib/db";
 import { ChannelType, MemberRole } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export default async function handler(
   req: NextApiRequest,
@@ -49,7 +50,12 @@ export default async function handler(
         },
       },
       include:{
-        channels:true
+        channels:true,
+        members:{
+          include:{
+            profile:true
+          }
+        }
       }
     });
     const channelCreateKey = `server:${server.id}:channel`;
