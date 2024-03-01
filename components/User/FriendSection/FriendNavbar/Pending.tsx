@@ -23,6 +23,7 @@ const Pending = ({ profile }: { profile: User }) => {
               {
                 data?.map((request: any) => (
                   <PendingUserBox
+                  key={request?.id}
                     request={request}
                   />
 
