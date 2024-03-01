@@ -9,10 +9,12 @@ import {
 } from "@/components/ui/tooltip"
 import { HiInbox } from "react-icons/hi";
 import { BiHelpCircle } from "react-icons/bi";
+import { cn } from "@/lib/utils";
 interface FriendHeaderProps{
     setActive:(active:number)=>void;
+    active:number
 }
-const FriendHeader = ({setActive}:FriendHeaderProps) => {
+const FriendHeader = ({active, setActive}:FriendHeaderProps) => {
     return (
         <div className="dark:bg-[#313338] bg-white border-b border-gray-300 dark:border-black px-5 py-3 w-full  h-12 flex items-center ">
             <div className="flex gap-2 justify-between items-center">
@@ -21,19 +23,19 @@ const FriendHeader = ({setActive}:FriendHeaderProps) => {
             </div>
             <div className="flex ml-5 px-5 w-full justify-between items-center border-r-2  border-l-2 border-gray-500 mr-5 ">
                 <ul className=" select-none flex space-x-5 items-center ">
-                    <li onClick={()=>setActive(0)} className="text-gray-300  cursor-pointer px-2 rounded-md py-[1px] bg-[#43444B]">
+                    <li onClick={()=>setActive(0)} className={cn("text-gray-300  cursor-pointer px-2 rounded-md py-[1px] ",active === 0 && "bg-[#43444B]")}>
                         Online
                     </li>
-                    <li onClick={()=>setActive(1)} className="text-gray-300 cursor-pointer px-2 rounded-md py-[1px] bg-[#43444B]">
+                    <li onClick={()=>setActive(1)} className={cn("text-gray-300  cursor-pointer px-2 rounded-md py-[1px] ",active === 1 && "bg-[#43444B]")}>
                         All
                     </li>
-                    <li onClick={()=>setActive(2)} className="text-gray-300 cursor-pointer px-2 rounded-md py-[1px] bg-[#43444B]">
+                    <li onClick={()=>setActive(2)} className={cn("text-gray-300  cursor-pointer px-2 rounded-md py-[1px] ",active === 2 && "bg-[#43444B]")}>
                         Pending
                     </li>
-                    <li onClick={()=>setActive(3)} className="text-gray-300 cursor-pointer px-2 rounded-md py-[1px] bg-[#43444B]">
+                    <li onClick={()=>setActive(3)} className={cn("text-gray-300  cursor-pointer px-2 rounded-md py-[1px] ",active === 3 && "bg-[#43444B]")}>
                         Block
                     </li>
-                    <li onClick={()=>setActive(4)} className="bg-[#248046] cursor-pointer text-white px-3 py-[1px] rounded-md">
+                    <li onClick={()=>setActive(4)} className={cn(" cursor-pointer text-[#248046] font-semibold px-3  py-[1px] rounded-md",active===4 && "bg-[#248046] text-white")}>
                         Add Friend
                     </li>
                 </ul>

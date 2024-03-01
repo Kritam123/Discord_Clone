@@ -50,7 +50,8 @@ export default async function handler(
             reciverId: reciverId,
           },
           include:{
-            sender:true
+            sender:true,
+            reciver:true
           }
         });
         return friendRequest;
@@ -60,9 +61,8 @@ export default async function handler(
     };
 
     const data = await createFriendRequest(senderId, reciverId);
-    const createKey = `request:${profile?.id}`;
-
-    res?.socket?.server?.io?.emit(createKey, data);
+    const createFriendKey = `request:${profile?.id}`;
+    res?.socket?.server?.io?.emit(createFriendKey, data);
     return res.status(200).json(data);
   } catch (error) {
     console.log("[Friend_ReQuest]", error);

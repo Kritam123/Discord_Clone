@@ -16,10 +16,12 @@ export const SibarIcons = [
 export const FeatuerIcon = [
     {
         icon:FaUserFriends,
-        name:"Friends"
+        name:"Friends",
+        href:"/channels/me"
     },
-    {
-        icon:IoLogoIonitron,
-        name:"Nitro"
-    }
+    // {
+    //     icon:IoLogoIonitron,
+    //     name:"Nitro",
+    //     href:"/nitro"
+    // }
 ]

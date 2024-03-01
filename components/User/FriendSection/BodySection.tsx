@@ -16,7 +16,7 @@ const BodySection = ({ active,user }: BodySectionProps) => {
                 active === 0 && <OnlineFriends />
             }
             {
-                active === 1 && <AllFriends />
+                active === 1 && <AllFriends profile={user}/>
             }
             {
                 active === 2 && <Pending profile={user} />

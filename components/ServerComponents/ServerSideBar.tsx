@@ -131,7 +131,6 @@ const ServerSideBar = async ({ serverId, profile }: ServerSidebarProps) => {
           members= {members}
           profileId={profile.id}
         />
-
       </div>
       <UserFooter user={profile}/>
     </div>

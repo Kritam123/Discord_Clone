@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import qs from "query-string";
 import { Member, MemberRole, User } from "@prisma/client";
@@ -12,13 +12,10 @@ import { FormEvent, useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 
 import { useModal } from "@/hooks/use-model-store";
-// import { Avatar, Tooltip } from "@mui/material";
 import clsx from "clsx";
 import { AiOutlineFile } from "react-icons/ai";
-import { FaEdit, FaHashtag } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import TooltipContext from "../use-tooltip";
-import { MdAddReaction } from "react-icons/md";
-import { IoIosMore, IoLogoIonitron } from "react-icons/io";
 
 interface ChatItemProps {
   id: string;
@@ -27,9 +24,11 @@ interface ChatItemProps {
     profile: User;
   };
   timestamp: string;
+  user?:any
   fileUrl: string | null;
   deleted: boolean;
-  currentMember: Member;
+  currentMember?: Member;
+  currentUser?:User;
   isUpdated: boolean;
   socketUrl: string;
   socketQuery: Record<string, string>;
@@ -41,14 +40,14 @@ const roleIconMap = {
   ADMIN: <BsShieldExclamation className="h-4 w-4 ml-2 text-rose-500" />,
 };
 
-
-
 export const ChatItem = ({
   id,
   content,
   member,
   timestamp,
   fileUrl,
+  user,
+  currentUser,
   deleted,
   currentMember,
   isUpdated,
@@ -62,11 +61,13 @@ export const ChatItem = ({
   const router = useRouter();
 
   const onMemberClick = () => {
-    if (member.id === currentMember.id) {
-      return;
+    if(!currentUser) {
+      if (member.id === currentMember?.id) {
+        return;
+      }
+  
+      router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
     }
-
-    router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
   };
 
   useEffect(() => {
@@ -83,13 +84,13 @@ export const ChatItem = ({
 
   const onSubmit = async (e: FormEvent, value: string) => {
     e.preventDefault();
-    if(!value) return;
+    if (!value) return;
     try {
       const url = qs.stringifyUrl({
         url: `${socketUrl}/${id}`,
         query: socketQuery,
       });
-      await axios.patch(url, {value});
+      await axios.patch(url, { value });
       setIsEditing(false);
     } catch (error) {
       console.log(error);
@@ -99,10 +100,10 @@ export const ChatItem = ({
     setValue(content);
   }, [content]);
   const fileType = fileUrl?.split(".").pop();
-  const isAdmin = currentMember.role === MemberRole.ADMIN;
-  const isModerator = currentMember.role === MemberRole.MODERATOR;
-  const isOwner = currentMember.id === member.id;
-  const canDeleteMessage = !deleted && (isAdmin || isModerator || isOwner);
+  const isAdmin = currentMember?.role === MemberRole.ADMIN;
+  const isModerator = currentMember?.role === MemberRole.MODERATOR;
+  const isOwner = user ? currentUser?.id === user?.id : currentMember?.id === member?.id;
+  const canDeleteMessage =user ? isOwner && !deleted : !deleted && (isAdmin || isModerator || isOwner);
   const canEditMessage = !deleted && isOwner && !fileUrl;
   const isPDF = fileType === "pdf" && fileUrl;
   const isImage = !isPDF && fileUrl;
@@ -111,26 +112,27 @@ export const ChatItem = ({
     <div className="relative group flex items-center hover:bg-black/5 p-2 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
         <div
-          onClick={onMemberClick}
+          onClick={ onMemberClick}
           className="cursor-pointer hover:drop-shadow-md transition"
         >
           <Avatar>
-            <AvatarImage src={member.profile.image!} />
+            <AvatarImage src={user ? user?.image : member?.profile?.image!} />
             <AvatarFallback>img</AvatarFallback>
           </Avatar>
-
-
         </div>
         <div className="flex flex-col w-full">
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
               <p
-                onClick={onMemberClick}
+                onClick={ onMemberClick}
                 className=" text-balck dark:text-zinc-100 text-[16px] capitalize hover:underline cursor-pointer"
               >
-                {member.profile.username}
+
+                {user ? user?.username : member?.profile?.username}
               </p>
-              <TooltipContext content={member.role}>{roleIconMap[member.role]!}</TooltipContext>
+             {!user && <TooltipContext content={member?.role}>
+                {roleIconMap[member?.role]!}
+              </TooltipContext>}
             </div>
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
               {timestamp}
@@ -169,7 +171,7 @@ export const ChatItem = ({
               className={clsx(
                 "text-sm text-black dark:text-zinc-300 text-[16px]",
                 deleted &&
-                "italic text-zinc-500 dark:text-zinc-400 text-[15px] mt-1"
+                  "italic text-zinc-500 dark:text-zinc-400 text-[15px] mt-1"
               )}
             >
               {content}
@@ -194,7 +196,12 @@ export const ChatItem = ({
                     onChange={(e) => setValue(e.target.value)}
                   />
                 </div>
-                <button type="submit" className="text-sm bg-white shadow-lg px-3 text-black dark:text-zinc-100">Save</button>
+                <button
+                  type="submit"
+                  className="text-sm bg-white shadow-lg px-3 text-black dark:bg-black dark:text-zinc-100"
+                >
+                  Save
+                </button>
               </form>
               <span className="text-[10px] mt-1 text-zinc-400">
                 Press escape to cancel, enter to save
@@ -205,7 +212,6 @@ export const ChatItem = ({
       </div>
 
       {canDeleteMessage && (
-        
         <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 -top-2 right-5 shadow-md bg-[#f2f2f2] dark:bg-zinc-800  rounded-sm">
           {canEditMessage && (
             <TooltipContext content="Edit">

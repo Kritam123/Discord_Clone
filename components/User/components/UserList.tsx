@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip"
 
 import UserBox from './UserBox';
-const UserList =({getConversations}:any) => {
+const UserList =({getConversations,user}:any) => {
 
     return (
         <div className='mt-5 px-2'>
@@ -33,7 +33,7 @@ const UserList =({getConversations}:any) => {
             <div className='space-y-1'>
                 {
                     getConversations?.map((conversation:any) => (
-                        <UserBox key={conversation.id} conversation={conversation} />
+                        <UserBox user={user} key={conversation.id} conversation={conversation} />
                     ))
                 }
             </div>

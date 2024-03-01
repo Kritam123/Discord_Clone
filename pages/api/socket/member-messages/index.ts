@@ -29,25 +29,33 @@ export default async function handler(
     //   return res.status(400).json({ error: "Missing Content" });
     // }
 
-    const conversation = await db.directConversation.findFirst({
+    const conversation = await db.conversation.findFirst({
       where: {
         id: conversationId as string,
         OR: [
           {
-            conversationOne: {
-              id: profile.id,
+            memberOne: {
+              userId: profile.id,
             },
           },
           {
-            conversationTwo: {
-              id: profile.id,
+            memberTwo: {
+              userId: profile.id,
             },
           },
         ],
       },
       include: {
-        conversationOne:true,
-        conversationTwo:true
+        memberOne: {
+          include: {
+            profile: true,
+          },
+        },
+        memberTwo: {
+          include: {
+            profile: true,
+          },
+        },
       },
     });
 
@@ -55,25 +63,30 @@ export default async function handler(
       return res.status(404).json({ message: "Conversation not found" });
     }
 
-    const user =
-      conversation.conversationOne.id === profile.id
-        ? conversation.conversationOne
-        : conversation.conversationTwo;
-    if (!user) {
+    const member =
+      conversation.memberOne.userId === profile.id
+        ? conversation.memberOne
+        : conversation.memberTwo;
+
+    if (!member) {
       return res.status(404).json({ message: "Member not found" });
     }
-    const message = await db.directMessage.create({
+
+    const message = await db.memberMessage.create({
       data: {
         content: value,
         fileUrl,
         conversationId: conversationId as string,
-        userId:user.id
+        memberId: member.id,
       },
       include: {
-       user:true
+        member: {
+          include: {
+            profile: true,
+          },
         },
       },
-    );
+    });
 
     const channelKey = `chat:${conversationId}:messages`;
 

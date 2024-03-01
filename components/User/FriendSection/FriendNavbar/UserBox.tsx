@@ -22,6 +22,7 @@ interface UserBoxProps {
 }
 
 const UserBox = ({ searchUser, profile }: UserBoxProps) => {
+
     const handleSendRequest = async () => {
         const apiUrl = "/api/socket/friend-request"
         let senderId = profile.id;
@@ -29,16 +30,15 @@ const UserBox = ({ searchUser, profile }: UserBoxProps) => {
         try {
             const url = qs.stringifyUrl({
                 url: apiUrl,
-              });
-              await axios.post(url,{senderId,reciverId});
+            });
+            await axios.post(url, { senderId, reciverId });
         } catch (error) {
             console.log(error);
         }
     }
-    const isSendRequest = searchUser?.sender?.some((item) => item.senderId === profile.id && item
-        .reciverId === searchUser.id);
-    const isReciveRequest = searchUser?.reciver?.some((item) => item.senderId === searchUser.id && item
-        .reciverId === profile.id);
+    const isReciveRequest = searchUser?.sender?.some((item) => item.senderId === searchUser.id && item.reciverId === profile.id
+    );
+    const isSendRequest = searchUser?.reciver?.some((item) => item.senderId === profile.id && item.reciverId === searchUser.id);
     return (
         <div className="flex cursor-pointer hover:bg-[#f2f2f2] dark:hover:bg-[#404249] rounded-md justify-between group py-2 px-2 items-center">
             <div className="flex gap-2">
@@ -58,7 +58,7 @@ const UserBox = ({ searchUser, profile }: UserBoxProps) => {
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger>
-                         
+
                             <Popover>
                                 <PopoverTrigger>
                                     <button className="w-9 h-9 dark:group-hover:bg-[#1E1F22] group-hover:bg-[#ffff] rounded-full flex justify-center items-center text-gray-400 dark:bg-[#2B2D31] bg-[#e8e5e5] shadow-sm px-1 py-1">
@@ -95,17 +95,17 @@ const UserBox = ({ searchUser, profile }: UserBoxProps) => {
                                     </button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-fit">
-                                   {!isReciveRequest && !isSendRequest && <Button
+                                    {!isReciveRequest && !isSendRequest && <Button
                                         onClick={handleSendRequest}
                                         className="capitalize bg-blue-700 text-white hover:bg-blue-500 hover:text-white" variant={"outline"}>
                                         send friend Request
                                     </Button>}
-                                   {isReciveRequest && !isSendRequest && <Button
+                                    {!isSendRequest && isReciveRequest && <Button
                                         onClick={handleSendRequest}
                                         className="capitalize bg-blue-700 text-white hover:bg-blue-500 hover:text-white" variant={"outline"}>
                                         Confirm Request
                                     </Button>}
-                                   {!isReciveRequest && isSendRequest && <Button
+                                    {isSendRequest && !isReciveRequest && <Button
                                         onClick={handleSendRequest}
                                         className="capitalize bg-blue-700 text-white hover:bg-blue-500 hover:text-white" variant={"outline"}>
                                         Cancel Request

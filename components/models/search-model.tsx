@@ -32,8 +32,10 @@ const SearchChannel = () => {
         e.preventDefault();
         if(ChannelType === "channel"){
             router.push(`/servers/${server?.id}/channels/${id}`);
+            onClose()
         }
         router.push(`/servers/${server?.id}/conversation/${id}`);
+        onClose()
     }
     return (
         <Dialog open={isModalOpen} onOpenChange={onClose}>

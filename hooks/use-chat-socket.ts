@@ -65,7 +65,6 @@ export const useChatSocket = ({
         }
 
         const newData = [...oldData.pages];
-
         newData[0] = {
           ...newData[0],
           items: [

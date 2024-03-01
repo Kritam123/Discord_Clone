@@ -31,7 +31,7 @@ model User {
   directconversationsReceived  DirectConversation[] @relation("userTwo")
   sender                       FriendRequest[]      @relation("sender")
   reciver                      FriendRequest[]      @relation("reciver")
-  friends                      Friend[]             @relation("UserFriends")
+  friends                      Friends[]            @relation("UserFriends")
 }
 
 model Server {
@@ -198,14 +198,13 @@ model FriendRequest {
   senderId  String   @db.ObjectId()
   sender    User     @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
   reciverId String   @db.ObjectId()
-  reciver   User     @relation("reciver", fields: [senderId], references: [id], onDelete: Cascade)
+  reciver   User     @relation("reciver", fields: [reciverId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   @@index([senderId, reciverId])
 }
 
-model Friend {
+model Friends {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   friendId  String   @db.ObjectId()
   friend    User     @relation("UserFriends", fields: [friendId], references: [id])

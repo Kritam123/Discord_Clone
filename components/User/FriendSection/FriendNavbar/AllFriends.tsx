@@ -3,9 +3,17 @@ import clsx from "clsx";
 import React, { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { MdOutlineClose } from "react-icons/md";
+import { User } from "@prisma/client";
+import { useAllFriendsQuery } from "@/hooks/use-all-friends-query";
 import AllFriendUserList from "./AllFriendUserList";
-const AllFriends = () => {
+import { createOrGetConversationOfUser } from "@/actions/conversation";
+const AllFriends = ({ profile }: { profile: User }) => {
+  
+  let apiUrl = "/api/all-friends"
+  let queryKey = `friends:${profile.id}:get`
   const [value, setValue] = useState("");
+  const { data,isLoading } = useAllFriendsQuery({ apiUrl, queryKey })
+ 
   return (
     <div className="flex flex-[2]  border-r dark:border-gray-500 border-gray-300  ">
       <div className="px-7 py-3 w-full">
@@ -39,7 +47,10 @@ const AllFriends = () => {
           </span>
           {/* friendlist */}
           <div className="border-t dark:border-[#404249] border-gray-300  mt-4">
-            <AllFriendUserList />
+            <AllFriendUserList
+              friends={data}
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </div>

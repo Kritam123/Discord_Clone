@@ -20,7 +20,8 @@ type MessageWithMemberWithProfile = Message & {
 };
 interface ChatMessagesProps {
   name: string;
-  member: Member;
+  currentUser?:User
+  member?: Member;
   chatId: string;
   apiUrl: string;
   socketUrl: string;
@@ -34,6 +35,7 @@ interface ChatMessagesProps {
 const ChatMessages = ({
   name,
   member,
+  currentUser,
   imageUrl,
   displayName,
   chatId,
@@ -47,7 +49,6 @@ const ChatMessages = ({
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
   const updateKey = `chat:${chatId}:messages:update`;
-
   const chatRef = useRef<ElementRef<"div">>(null);
   const bottomRef = useRef<ElementRef<"div">>(null);
 
@@ -80,7 +81,7 @@ const ChatMessages = ({
 
   if (status === "error") {
     return (
-      <div className="flex flex-col flex-1 justify-center items-center">
+      <div className="flex flex-col h-full flex-1 justify-center items-center">
         <LuServerCrash className="h-7 w-7 text-zinc-500 my-4" />
         <p className="text-xs text-zinc-500 dark:text-zinc-400">
           Something went wrong!
@@ -111,12 +112,13 @@ const ChatMessages = ({
         <div className="flex flex-col-reverse mt-auto">
           {data?.pages?.map((group, i) => (
             <Fragment key={i}>
-              {group?.items?.map((message: MessageWithMemberWithProfile) => (
-                // <MessageBox/>
+              {group?.items?.map((message: any) => (
                 <ChatItem
                   key={message.id}
                   id={message.id}
                   currentMember={member}
+                  currentUser={currentUser}
+                  user = {message.user}
                   member={message.member}
                   content={message?.content}
                   fileUrl={message.fileUrl}

@@ -10,7 +10,7 @@ const FindFriends = () => {
     >
         {
             FeatuerIcon.map((item,i)=>(
-                <FeatureBox key={i} index={i} icon= {item.icon} name= {item.name}/>
+                <FeatureBox key={i} index={i} icon= {item.icon} name= {item.name} href={item.href}/>
             ))
         }
 

@@ -10,7 +10,7 @@ interface ChatHeaderProps {
     imageUrl?: string;
     userId?:string
   }
-const Chatheader = ({serverId,name,type,imageUrl}:ChatHeaderProps) => {
+const Chatheader = ({name,type,imageUrl}:ChatHeaderProps) => {
   return (
     <div className="text-md w-full font-semibold px-3 py-3  flex items-center h-12  bg-white dark:bg-[#313338] dark:border-neutral-800 border-b-2">
     {/* <MobileToggle serverId={serverId} /> */}
@@ -21,9 +21,7 @@ const Chatheader = ({serverId,name,type,imageUrl}:ChatHeaderProps) => {
       <Avatar className='mr-2 w-8 h-8'>
       <AvatarImage src={imageUrl}/>
       <AvatarFallback>{`${name[0]}${name[name.length - 1]}`}</AvatarFallback>
-    </Avatar>
-    
-     
+    </Avatar>  
     )}
     <p className="font-semibold text-md text-black  dark:text-white">
       {name}
