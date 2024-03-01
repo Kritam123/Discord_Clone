@@ -33,7 +33,7 @@ const UserList =({getConversations,user}:any) => {
             <div className='space-y-1'>
                 {
                     getConversations?.map((conversation:any) => (
-                        <UserBox user={user} key={conversation.id} conversation={conversation} />
+                        <UserBox  user={user} key={conversation.id} conversation={conversation} />
                     ))
                 }
             </div>

@@ -24,11 +24,11 @@ interface ChatItemProps {
     profile: User;
   };
   timestamp: string;
-  user?:any
+  user?: any
   fileUrl: string | null;
   deleted: boolean;
   currentMember?: Member;
-  currentUser?:User;
+  currentUser?: User;
   isUpdated: boolean;
   socketUrl: string;
   socketQuery: Record<string, string>;
@@ -61,11 +61,11 @@ export const ChatItem = ({
   const router = useRouter();
 
   const onMemberClick = () => {
-    if(!currentUser) {
+    if (!currentUser) {
       if (member.id === currentMember?.id) {
         return;
       }
-  
+
       router.push(`/servers/${params?.serverId}/conversations/${member.id}`);
     }
   };
@@ -103,16 +103,17 @@ export const ChatItem = ({
   const isAdmin = currentMember?.role === MemberRole.ADMIN;
   const isModerator = currentMember?.role === MemberRole.MODERATOR;
   const isOwner = user ? currentUser?.id === user?.id : currentMember?.id === member?.id;
-  const canDeleteMessage =user ? isOwner && !deleted : !deleted && (isAdmin || isModerator || isOwner);
+  const canDeleteMessage = user ? isOwner && !deleted : !deleted && (isAdmin || isModerator || isOwner);
   const canEditMessage = !deleted && isOwner && !fileUrl;
   const isPDF = fileType === "pdf" && fileUrl;
-  const isImage = !isPDF && fileUrl;
+  const isVideo = fileType === "mp4" && fileUrl;
+  const isImage = !isPDF && !isVideo && fileUrl;
 
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-2 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
         <div
-          onClick={ onMemberClick}
+          onClick={onMemberClick}
           className="cursor-pointer hover:drop-shadow-md transition"
         >
           <Avatar>
@@ -124,13 +125,13 @@ export const ChatItem = ({
           <div className="flex items-center gap-x-2">
             <div className="flex items-center">
               <p
-                onClick={ onMemberClick}
+                onClick={onMemberClick}
                 className=" text-balck dark:text-zinc-100 text-[16px] capitalize hover:underline cursor-pointer"
               >
 
                 {user ? user?.username : member?.profile?.username}
               </p>
-             {!user && <TooltipContext content={member?.role}>
+              {!user && <TooltipContext content={member?.role}>
                 {roleIconMap[member?.role]!}
               </TooltipContext>}
             </div>
@@ -166,12 +167,26 @@ export const ChatItem = ({
               </a>
             </div>
           )}
+          {isVideo && (
+            <a
+              href={fileUrl as string}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative aspect-square rounded-md mt-2 overflow-hidden border flex items-center bg-secondary h-48 w-72"
+            >
+              <video
+                src={fileUrl as string}
+                className="object-cover w-full h-full"
+                controls
+              />
+            </a>
+          )}
           {!fileUrl && !isEditing && (
             <p
               className={clsx(
                 "text-sm text-black dark:text-zinc-300 text-[16px]",
                 deleted &&
-                  "italic text-zinc-500 dark:text-zinc-400 text-[15px] mt-1"
+                "italic text-zinc-500 dark:text-zinc-400 text-[15px] mt-1"
               )}
             >
               {content}

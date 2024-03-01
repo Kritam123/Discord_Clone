@@ -1,11 +1,6 @@
 import React from 'react'
 import AllUserBox, { AllUserBoxSkeleton } from './AllUserBox'
-import { Friends, User } from '@prisma/client'
-interface friendsWithProfileProps {
-  item: Friends & {
-    friend: User
-  }
-}
+
 const AllFriendUserList = ({ friends, isLoading }: { friends: any, isLoading: any }) => {
 
   if (isLoading) {
@@ -21,8 +16,8 @@ const AllFriendUserList = ({ friends, isLoading }: { friends: any, isLoading: an
   return (
     <>
       {
-        friends?.map((item: friendsWithProfileProps) => (
-          <AllUserBox item={item} />
+        friends?.map((item:any) => (
+          <AllUserBox key={item?.id} item={item} />
         ))
       }
     </>

@@ -26,7 +26,6 @@ import { Button } from "@/components/ui/button";
 import { createOrGetConversationOfUser } from "@/actions/conversation";
 import { useRouter } from "next/navigation";
 const AllUserBox = ({ item }: any) => {
-  console.log(item);
   const router = useRouter()
   const handleCreateOrGetConversation = async () => {
     try {

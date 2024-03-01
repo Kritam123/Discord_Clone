@@ -20,7 +20,7 @@ export const ourFileRouter = {
       return { userId: user?.id };
     })
     .onUploadComplete(async () => {}),
-  messageFile: f(["image","pdf","application/pdf","application/docbook+xml","application/vnd.ms-powerpoint","application/msword"])
+  messageFile: f({video:{maxFileSize:"1024MB"},pdf:{maxFileSize:"16MB"},image:{maxFileSize:"16MB"}})
     .middleware(async () => {
       const user = await currentUser();
 
