@@ -27,7 +27,7 @@ const FriendAll = ({ profile }: any) => {
           <>
             {
               data?.map((online: any) => (
-                <AllUserBox item={online} />
+                <AllUserBox key={online?.id} item={online} />
               ))
             }
           </>
