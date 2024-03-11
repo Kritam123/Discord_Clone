@@ -10,6 +10,7 @@ export async function GET(req: Request) {
     const friends = await db.friends.findMany({
       where: {
         userId: profile.id,
+        isBlock:false
       },
       include: {
         friend:true

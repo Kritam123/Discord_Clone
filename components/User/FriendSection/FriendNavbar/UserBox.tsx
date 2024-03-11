@@ -9,14 +9,16 @@ import {
 } from "@/components/ui/tooltip"
 import qs from "query-string";
 import { HiOutlineDotsVertical } from "react-icons/hi"
-import { FriendRequest, User } from "@prisma/client";
+import { FriendRequest, Friends, User } from "@prisma/client";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import axios from "axios";
+import { cn } from "@/lib/utils";
 interface UserBoxProps {
     searchUser: User & {
         sender: FriendRequest[]
         reciver: FriendRequest[]
+        friends:Friends[]
     }
     profile: any
 }
@@ -36,9 +38,10 @@ const UserBox = ({ searchUser, profile }: UserBoxProps) => {
             console.log(error);
         }
     }
-    const isReciveRequest = searchUser?.sender?.some((item) => item.senderId === searchUser.id && item.reciverId === profile.id
-    );
+    const isReciveRequest = searchUser?.sender?.some((item) => item.senderId === searchUser.id && item.reciverId === profile.id)
+    const isFriends   = searchUser?.friends?.some((item)=>item?.friendId === profile?.id || item.userId === profile?.id)
     const isSendRequest = searchUser?.reciver?.some((item) => item.senderId === profile.id && item.reciverId === searchUser.id);
+    console.log(searchUser)
     return (
         <div className="flex cursor-pointer hover:bg-[#f2f2f2] dark:hover:bg-[#404249] rounded-md justify-between group py-2 px-2 items-center">
             <div className="flex gap-2">
@@ -47,11 +50,11 @@ const UserBox = ({ searchUser, profile }: UserBoxProps) => {
                         <AvatarImage src={searchUser?.image as string} />
                         <AvatarFallback>img</AvatarFallback>
                     </Avatar>
-                    <div className="absolute bottom-1 right-1 rounded-md w-3 h-3 bg-white " />
+                    <div className={cn("absolute bottom-1 right-1 rounded-md w-3 h-3 bg-white ",searchUser?.status === "Online" && "bg-[#56ab47]")} />
                 </div>
                 <div className="flex justify-center flex-col">
                     <span className="dark:text-white text-gray-700 font-semibold">{searchUser?.username}</span>
-                    <span className="dark:text-gray-400 text-gray-500 text-sm">Offline</span>
+                    <span className="dark:text-gray-400 text-gray-500 text-sm">{searchUser?.status}</span>
                 </div>
             </div>
             <div className="flex gap-2">
@@ -85,27 +88,27 @@ const UserBox = ({ searchUser, profile }: UserBoxProps) => {
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
-                <TooltipProvider>
+                {!isFriends && <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger>
                             <Popover>
                                 <PopoverTrigger>
-                                    <button className="w-9 h-9 dark:group-hover:bg-[#1E1F22] group-hover:bg-[#ffff] rounded-full flex justify-center items-center text-gray-400 dark:bg-[#2B2D31] bg-[#e8e5e5] shadow-sm px-1 py-1">
+                                   <button className="w-9 h-9 dark:group-hover:bg-[#1E1F22] group-hover:bg-[#ffff] rounded-full flex justify-center items-center text-gray-400 dark:bg-[#2B2D31] bg-[#e8e5e5] shadow-sm px-1 py-1">
                                         <HiOutlineDotsVertical className="text-gray-700 dark:text-white w-5 h-5 " />
                                     </button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-fit">
-                                    {!isReciveRequest && !isSendRequest && <Button
+                                    {!isFriends && !isReciveRequest && !isSendRequest && <Button
                                         onClick={handleSendRequest}
                                         className="capitalize bg-blue-700 text-white hover:bg-blue-500 hover:text-white" variant={"outline"}>
                                         send friend Request
                                     </Button>}
-                                    {!isSendRequest && isReciveRequest && <Button
+                                    {!isFriends && !isSendRequest && isReciveRequest && <Button
                                         onClick={handleSendRequest}
                                         className="capitalize bg-blue-700 text-white hover:bg-blue-500 hover:text-white" variant={"outline"}>
                                         Confirm Request
                                     </Button>}
-                                    {isSendRequest && !isReciveRequest && <Button
+                                    {!isFriends && isSendRequest && !isReciveRequest && <Button
                                         onClick={handleSendRequest}
                                         className="capitalize bg-blue-700 text-white hover:bg-blue-500 hover:text-white" variant={"outline"}>
                                         Cancel Request
@@ -119,7 +122,7 @@ const UserBox = ({ searchUser, profile }: UserBoxProps) => {
                             <p>More</p>
                         </TooltipContent>
                     </Tooltip>
-                </TooltipProvider>
+                </TooltipProvider>}
             </div>
         </div>
     );

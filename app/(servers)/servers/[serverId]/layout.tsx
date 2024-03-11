@@ -14,25 +14,35 @@ const layout = async ({ children, params }: {
     return redirect("/login");
   }
 
+ 
   const server = await db.server.findUnique({
     where: {
       id: params.serverId,
+    },
+    include: {
+      channels: {
+        orderBy: {
+          createdAt: "asc",
+        },
+      },
       members: {
-        some: {
-          userId: profile?.id
-        }
-      }
-    }
+        include: {
+          profile: true,
+        },
+        orderBy: {
+          role: "asc",
+        },
+      },
+    },
   });
-
   if (!server) {
     return redirect("/channels/me");
   }
   return (
     <Sidebar>
-      <div className=" lg:flex h-full">
-        <ServerSideBar  profile={profile} serverId={server.id} />
-        <div className="ml-60 border w-[calc(100%-240px)] h-screen">
+      <div className=" flex h-full">
+        <ServerSideBar server={server}  profile={profile}  />
+        <div className="ml-16 lg:ml-60 w-full h-screen">
           {children}
         </div>
       </div>

@@ -3,10 +3,10 @@ import DesktopSidebar from './DesktopSidebar'
 
 const Sidebar = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="h-full ">
+    <div className="flex h-full">
       <DesktopSidebar />
       {/* <MobileFooter /> */}
-      <main className="lg:pl-[4.5rem] h-full">{children}</main>
+      <main className=" w-full lg:pl-[4.5rem] h-full">{children}</main>
     </div>
   )
 }

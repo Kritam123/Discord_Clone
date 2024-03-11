@@ -12,6 +12,7 @@ export const config = {
 };
 
 const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
+  const profile = await currentProfilePages(req);
   if (!res.socket.server.io) {
     const path = "/api/socket/io";
     const httpServer: NetServer = res.socket.server as any;
@@ -22,7 +23,28 @@ const ioHandler = async (req: NextApiRequest, res: NextApiResponseServerIo) => {
     });
     res.socket.server.io = io;
   }
-
+  res.socket.server.io.on("connection", async (socket) => {
+     await db.user.update({
+      where: {
+        id: profile?.id,
+      },
+      data: {
+        status: "Online",
+        socket_id: socket.id,
+      },
+    });
+    socket.on("disconnect",async()=>{
+      await db.user.update({
+        where: {
+          id: profile?.id,
+        },
+        data: {
+          status: "Offline",
+          socket_id: null,
+        },
+      });
+    })
+  });
   res.end();
 };
 

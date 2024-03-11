@@ -15,7 +15,7 @@ const AllFriends = ({ profile }: { profile: User }) => {
   const { data,isLoading } = useAllFriendsQuery({ apiUrl, queryKey })
  
   return (
-    <div className="flex flex-[2]  border-r dark:border-gray-500 border-gray-300  ">
+    <div className="flex flex-[2] w-full  border-r dark:border-gray-500 border-gray-300  ">
       <div className="px-7 py-3 w-full">
         <div className="bg-[#1E1F22] rounded-md flex items-center pr-2 gap-1">
           <input

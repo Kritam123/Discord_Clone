@@ -31,7 +31,7 @@ const page = async({params,searchParams}:FriendIdPageProps) => {
 
   const otherFriend:any = conversationOne.id === profile.id ? conversationTwo : conversationOne;
   return (
-    <div className=" bg-white  dark:bg-[#313338] flex flex-col h-full">
+    <div className=" bg-white overflow-hidden dark:bg-[#313338] flex flex-col h-full">
     <Chatheader
       imageUrl={otherFriend.image as string}
       name={otherFriend.displayName}
@@ -47,7 +47,7 @@ const page = async({params,searchParams}:FriendIdPageProps) => {
     )}
     {!searchParams.video && (
       <div className="flex w-full h-[calc(100vh-5px)]">
-        <div className="flex-[2]  relative h-[calc(100vh-50px)]">
+        <div className="max-[1150px]:flex-[2] flex-1  relative h-[calc(100vh-50px)]">
           <ChatMessages
           currentUser={profile}
             imageUrl={otherFriend.image as string}
@@ -72,7 +72,7 @@ const page = async({params,searchParams}:FriendIdPageProps) => {
             }}
           />
         </div>
-        <div className="flex">
+        <div className="">
           <UserProfileBox
           imageUrl={otherFriend?.image as string}
           displayName={otherFriend?.username as string}

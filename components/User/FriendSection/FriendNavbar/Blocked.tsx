@@ -5,8 +5,9 @@ const Blocked = () => {
   return (
     <div className="flex flex-[2]  flex-col gap-4 border-r border-gray-500 justify-center items-center ">
     <Image
-          width={450}
-          height={450}
+          width={250}
+          height={250}
+          className=' lg:w-[450px] lg:h-[450px]'
           src={"/images/8c998f8fb62016fcfb4901e424ff378b.svg"}
           alt="svg"
         />

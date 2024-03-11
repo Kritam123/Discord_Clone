@@ -21,7 +21,7 @@ const AddBox: React.FC<AddBoxProps> = ({ icon: Icon, tooltip }) => {
           <TooltipTrigger>
             <button 
             onClick={tooltip === "Add a Server" ? () => onOpen("server"):()=>{}}
-            className=" group flex items-center justify-center hover:bg-[#23A559] hover:rounded-xl bg-[#313338]  rounded-full overflow-hidden h-2 w-3 md:h-11 md:w-11">
+            className=" group flex items-center justify-center hover:bg-[#23A559] hover:rounded-xl bg-[#313338]  rounded-full overflow-hidden h-11 w-11">
               {tooltip !== "Add a Server" && (
                 <div className="absolute  group-hover:h-[20px] bg-gray-800 dark:hover:bg-gray-800  left-[-10px] top-[15px] z-40 transition-all  dark:bg-slate-100 h-[10px] w-[5px] rounded-r-full " />
               )}

@@ -1,5 +1,4 @@
 "use client";
-import { db } from "@/lib/db";
 import {
   createContext,
   useContext,
@@ -7,7 +6,6 @@ import {
   useState
 } from "react";
 import { io as ClientIO } from "socket.io-client";
-
 type SocketContextType = {
   socket: any | null;
   isConnected: boolean;
@@ -35,25 +33,20 @@ export const SocketProvider = ({
   const [userId, setUserId] = useState("");
   useEffect(() => {
     const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
-
       path: "/api/socket/io",
       addTrailingSlash: false,
     });
 
     socketInstance.on("connect", async () => {
       setIsConnected(true);
-
-
+      
     });
 
     socketInstance.on("disconnect", async () => {
-
       setIsConnected(false);
-
     });
 
     setSocket(socketInstance);
-
     return () => {
       socketInstance.disconnect();
     }

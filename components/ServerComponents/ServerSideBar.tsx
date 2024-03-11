@@ -1,22 +1,31 @@
+'use client';
 import React from "react";
 import Header from "./components/Header";
-import { ChannelType, MemberRole, User } from "@prisma/client";
+import { Channel, ChannelType, Member, MemberRole, Server, User } from "@prisma/client";
 import { BsShieldCheck, BsFillMicFill } from "react-icons/bs";
 import { LuShieldAlert } from "react-icons/lu";
 import { BiHash, BiSolidVideo } from "react-icons/bi";
 import ServerSearch from "./components/ServerSearch";
-import ServerSection from "./components/Server-Section";
-import ServerMember from "./components/ServerMember";
 import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
+import {useDrawer} from "@/hooks/use-drawer-store"
 import { Separator } from "../ui/separator";
 import UserFooter from "../User/components/UserFooter";
 import ServerChannels from "./components/ServerChannels";
+import { cn } from "@/lib/utils";
+import { IoIosClose } from "react-icons/io";
+
 interface ServerSidebarProps {
-  serverId: string;
+  server: Server &{
+    members: Member[] &{
+        profile:User
+    }[]
+    channels:Channel[]
+  };
   profile: User
 }
-const ServerSideBar = async ({ serverId, profile }: ServerSidebarProps) => {
+const ServerSideBar =  ({  profile,server }: ServerSidebarProps) => {
+ const {type,isOpen,onClose} =   useDrawer();
+ const openServerDrawer = isOpen && type ==="openServerDrawer";
   const iconMap = {
     [ChannelType.TEXT]: <BiHash className="mr-2 h-4 w-4" />,
     [ChannelType.AUDIO]: <BsFillMicFill className="mr-2 h-4 w-4" />,
@@ -32,26 +41,7 @@ const ServerSideBar = async ({ serverId, profile }: ServerSidebarProps) => {
       <LuShieldAlert className="h-4 w-4 mr-2 text-rose-500" />
     ),
   };
-  const server = await db.server.findUnique({
-    where: {
-      id: serverId,
-    },
-    include: {
-      channels: {
-        orderBy: {
-          createdAt: "asc",
-        },
-      },
-      members: {
-        include: {
-          profile: true,
-        },
-        orderBy: {
-          role: "asc",
-        },
-      },
-    },
-  });
+ 
 
   const textChannels = server?.channels.filter(
     (channel) => channel.type === ChannelType.TEXT
@@ -74,7 +64,10 @@ const ServerSideBar = async ({ serverId, profile }: ServerSidebarProps) => {
     (member) => member.userId === profile.id
   )?.role;
   return (
-    <div className=" dark:bg-[#2B2D31]  bg-white  fixed inset-y-0 pb-20 lg:pb-0  lg:w-60 lg:block  border-gray-200 block">
+    <div className={cn("-translate-x-[100%]  dark:bg-[#2B2D31] bg-white dark:border-gray-700  border-r border-gray-200 fixed inset-y-0 pb-20 lg:pb-0 z-[100]  w-60 lg:translate-x-0 ",openServerDrawer && "translate-x-[4rem]"    )}>
+       <button onClick={()=>onClose()} className="w-8 flex justify-center  items-center ml-2 mt-1 h-8  lg:hidden  bg-gray-800 rounded-full px-1 py-1 ">
+          <IoIosClose className="text-2xl text-white"/>
+        </button>
       <Header server={server} role={role} />
       <div className="overflow-auto h-full flex-1 px-3">
         <div className="mt-2">
@@ -111,10 +104,11 @@ const ServerSideBar = async ({ serverId, profile }: ServerSidebarProps) => {
               {
                 label: "Members",
                 type: "member",
-                data: members?.map((member) => ({
+                data: members?.map((member:Member | any) => ({
                   id: member.id,
-                  name: member.profile.username,
-                  icon: roleIconMap[member.role],
+                  name: member?.profile.username,
+                  // @ts-ignore
+                  icon: roleIconMap[member.role] ,
                 }))
               },
             ]}
@@ -125,7 +119,7 @@ const ServerSideBar = async ({ serverId, profile }: ServerSidebarProps) => {
           textChannels={textChannels}
           audioChannels={audioChannels}
           videoChannels={videoChannels}
-          server={server}
+          server={server as any}
           role={role}
           apiUrl="/api/channels"
           members= {members}

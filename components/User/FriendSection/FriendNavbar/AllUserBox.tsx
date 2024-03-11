@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { createOrGetConversationOfUser } from "@/actions/conversation";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 const AllUserBox = ({ item }: any) => {
   const router = useRouter()
   const handleCreateOrGetConversation = async () => {
@@ -43,7 +44,7 @@ const AllUserBox = ({ item }: any) => {
             <AvatarImage src={item?.friend?.image} />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
-          <div className="absolute bottom-1 right-1 rounded-md w-3 h-3 bg-white " />
+          <div className={cn("absolute bottom-1 right-1 rounded-md w-3 h-3 bg-gray-300 ",item?.friend?.status === "Online" && "bg-[#56ab47]")} />
         </div>
         <div className="flex justify-center flex-col">
           <span className="dark:text-white text-gray-700 font-semibold">

@@ -10,10 +10,10 @@ interface BodySectionProps {
     user:any
 }
 const BodySection = ({ active,user }: BodySectionProps) => {
-    return (
-        <div className="dark:bg-[#313338] bg-white  flex h-[calc(100vh-3rem)] ">
+    return ( 
+        <div className="dark:bg-[#313338] w-full bg-white overflow-hidden flex h-[calc(100vh-3rem)] ">
             {
-                active === 0 && <OnlineFriends />
+                active === 0 && <OnlineFriends profile={user} />
             }
             {
                 active === 1 && <AllFriends profile={user}/>
@@ -29,7 +29,7 @@ const BodySection = ({ active,user }: BodySectionProps) => {
             }
 
 
-            <div className="flex-1">
+            <div className="flex-1 max-[780px]:hidden flex">
                 <FriendStatus />
             </div>
         </div>

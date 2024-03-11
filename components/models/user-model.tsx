@@ -16,7 +16,6 @@ const UserModal = () => {
     const { isOpen, type, data, onClose } = useModal();
     const [image, setImage] = React.useState<string>("");
     const { user } = data;
-    console.log(user);
     const [displayName, setDisplayName] = React.useState<string>("");
     const [username, setUsername] = React.useState<string>("");
     const [isLoading, setIsLoading] = React.useState<boolean>(false);

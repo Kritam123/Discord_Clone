@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { FriendRequest, User } from "@prisma/client";
 import axios from "axios";
 import qs from "query-string";
@@ -56,14 +57,14 @@ const PendingUserBox = ({ request }: FriendRequestWithSender) => {
             <AvatarImage src={request.sender.image as string} />
             <AvatarFallback>img</AvatarFallback>
           </Avatar>
-          <div className="absolute bottom-1 right-1 rounded-md w-3 h-3 bg-white " />
+          <div className={cn("absolute bottom-1 right-1 rounded-md w-3 h-3 bg-white ",request.sender.status === "Online" && "bg-[#56ab47]")} />
         </div>
         <div className="flex justify-center flex-col">
           <span className="dark:text-white text-gray-700 font-semibold">
-            {request.sender.username}
+            {request.sender?.username}
           </span>
           <span className="dark:text-gray-400 text-gray-500 text-sm">
-            {request.sender.status}
+            {request.sender?.status}
           </span>
         </div>
       </div>

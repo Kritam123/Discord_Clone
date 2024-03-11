@@ -7,7 +7,7 @@ import UserBox from "./UserBox";
 import { getUserByUserNameAction } from "@/actions/user";
 const AddFriends = ({ user }: any) => {
   const [value, setValue] = useState("");
-  const [searchUser, setSearchUser] = useState<User | null>(null);
+  const [searchUser, setSearchUser] = useState<any>(null);
   const handleGetUser = async () => {
     const user = await getUserByUserNameAction(value);
     setSearchUser(user);
@@ -48,15 +48,16 @@ const AddFriends = ({ user }: any) => {
       {
         searchUser !== null ? (
           <>
-            <UserBox searchUser={searchUser as any} profile={user} />
+            <UserBox searchUser={searchUser} profile={user} />
           </>
         )
           : (
             <>
               <div className="flex  flex-col items-center">
                 <Image
-                  width={450}
-                  height={450}
+                 width={250}
+                 height={250}
+                 className=' lg:w-[450px] lg:h-[450px]'
                   src={"/images/b5eb2f7d6b3f8cc9b60be4a5dcf28015.svg"}
                   alt="svg"
                 />

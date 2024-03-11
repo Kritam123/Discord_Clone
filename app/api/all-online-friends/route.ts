@@ -4,24 +4,28 @@ import { currentProfile } from "@/lib/getCurrentUser";
 export async function GET(req: Request) {
   try {
     const profile = await currentProfile();
-    const { searchParams } = new URL(req.url);
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    const requests = await db.friendRequest.findMany({
+    const onlineFriends = await db.friends.findMany({
       where: {
-        reciverId: profile.id,
+        userId: profile.id,
+        isBlock:false,
+        friend:{
+            status:"Online"
+        }
       },
       include: {
-        sender: true,
+        friend:true
       },
       orderBy: {
         createdAt: "desc",
+       
       },
     });
-    return NextResponse.json(requests);
+    return NextResponse.json(onlineFriends);
   } catch (error) {
-    console.log("Friends-Requests", error);
+    console.log("all-friends", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

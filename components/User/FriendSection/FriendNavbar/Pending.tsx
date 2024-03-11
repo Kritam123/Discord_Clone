@@ -16,7 +16,7 @@ const Pending = ({ profile }: { profile: User }) => {
   useFriendRequest({ createFriendKey, updateFriendKey, queryKey });
   return (
     <>
-      <div className=" flex-[2] px-3 py-3 flex-col gap-4 border-r border-gray-500  ">
+      <div className=" flex-[2]  px-3 py-3 flex-col gap-4 border-r border-gray-500">
         {
           !!data?.length ? (
             <>
@@ -36,8 +36,9 @@ const Pending = ({ profile }: { profile: User }) => {
             (
               <div className='flex justify-center items-center flex-col h-full '>
                 <Image
-                  width={450}
-                  height={450}
+                width={250}
+                height={250}
+                className=' lg:w-[450px] lg:h-[450px]'
                   src={"/images/b36c705f790dad253981f1893085015a.svg"}
                   alt="svg"
                 />

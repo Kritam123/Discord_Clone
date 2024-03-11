@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 const FriendContainer = ({user}:any) => {
     const [active, setActive] = useState(0);
     return (
-        <div>
+        <div  className='w-full '>
             <FriendHeader active={active} setActive={setActive} />
             <BodySection user={user} active={active} />
         </div>

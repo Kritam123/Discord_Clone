@@ -20,6 +20,7 @@ export const getUserByUserName = async (username: string) => {
       },
       include: {
         sender: true,
+        friends:true,
         reciver: true,
       },
     });

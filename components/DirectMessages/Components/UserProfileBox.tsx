@@ -1,6 +1,10 @@
+'use client'
 import React from "react";
 import UserServerSelect from "../UserServerSelect";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { useDrawer } from "@/hooks/use-drawer-store";
+import { IoIosClose } from "react-icons/io";
 interface UserProfileBoxProps {
   imageUrl: string
   displayName: string
@@ -8,10 +12,15 @@ interface UserProfileBoxProps {
   createdAt: string
 }
 const UserProfileBox = ({createdAt,displayName,imageUrl,name}:UserProfileBoxProps) => {
+  const { isOpen,type,onClose } = useDrawer();
+  const openProfile =  isOpen && type ==="openProfileDrawer"
   return (
-    <div className="bg-white px-2 dark:border-none border-gray-800 border-l dark:bg-[#232428] w-full h-full">
+    <div className={cn("bg-white px-2 max-[1150px]:fixed  w-50 top-10 right-0  max-[1150px]:translate-x-[100%]  dark:border-none border-gray-800 border-l dark:bg-[#232428]  h-full",openProfile && "max-[1150px]:translate-x-[0%]")}>
       {/* top heading */}
       <div className="bg-[#ED4545] relative  w-full h-28">
+      <button onClick={()=>onClose()} className="w-8 hidden justify-center  items-center ml-2 mt-1 h-8 max-[1150px]:flex  absolute bg-gray-800 rounded-full px-1 py-1 ">
+          <IoIosClose className="text-2xl text-white"/>
+        </button>
         <div className=" bg-white dark:bg-[#232428] w-24 h-24 absolute left-3  bottom-[-35px] rounded-full flex items-center justify-center ">
           <Avatar className="w-[5rem] h-[5rem]">
             <AvatarImage src={imageUrl} />
