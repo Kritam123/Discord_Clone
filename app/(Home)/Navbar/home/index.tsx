@@ -1,7 +1,13 @@
+"use client"
 import React from 'react'
 import Image from "next/image";
 import { BsDownload } from "react-icons/bs";
+import { useRouter } from 'next/navigation';
 const HomeComponent = () => {
+  const router =  useRouter();
+    const handleRoute = ()=>{
+        router.push("/channels/me");
+    }
   return (
     <>
          <div className="mt-16 z-50  text-start lg:text-center">
@@ -24,7 +30,7 @@ const HomeComponent = () => {
                 Download for Windows
               </span>
             </button>
-            <button className="flex cursor-pointer px-5  hover:shadow-md w-fit hover:bg-gray-800 text-xl text-white rounded-[50px] py-5 sm:py-[17px]   bg-[#313338]">
+            <button onClick={handleRoute} className="flex cursor-pointer px-5  hover:shadow-md w-fit hover:bg-gray-800 text-xl text-white rounded-[50px] py-5 sm:py-[17px]   bg-[#313338]">
               Open Discord In your browser
             </button>
           </div>
