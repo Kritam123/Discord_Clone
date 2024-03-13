@@ -33,10 +33,16 @@ const Chatheader = ({ name, type, imageUrl }: ChatHeaderProps) => {
         <BiHash className="w-5 h-5 text-zinc-500 dark:text-zinc-400 mr-2" />
       )}
       {type === "conversation" && (
-        <Avatar className='mr-2 w-8 h-8'>
+        <>
+        <Avatar  className='mr-2 max-[1150px]:block hidden w-8 h-8'>
           <AvatarImage src={imageUrl} />
           <AvatarFallback>{`${name[0]}${name[name.length - 1]}`}</AvatarFallback>
         </Avatar>
+        <Avatar onClick={() => onOpen("openProfileDrawer")} className='max-[1150px]:hidden block mr-2 w-8 h-8'>
+          <AvatarImage src={imageUrl} />
+          <AvatarFallback>{`${name[0]}${name[name.length - 1]}`}</AvatarFallback>
+        </Avatar>
+        </>
       )}
       <p className="font-semibold text-md text-black  dark:text-white">
         {name}
@@ -46,16 +52,7 @@ const Chatheader = ({ name, type, imageUrl }: ChatHeaderProps) => {
         {type === "conversation" && (
           <>
             <ChatVideoButton />
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <FaUserCircle onClick={() => onOpen("openProfileDrawer")} className="text-[1.5rem] block min-[1150px]:hidden mr-2" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Open User Details</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+           
           </>
         )}
 

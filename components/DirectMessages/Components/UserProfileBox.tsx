@@ -15,7 +15,7 @@ const UserProfileBox = ({createdAt,displayName,imageUrl,name}:UserProfileBoxProp
   const { isOpen,type,onClose } = useDrawer();
   const openProfile =  isOpen && type ==="openProfileDrawer"
   return (
-    <div className={cn("bg-white px-2 max-[1150px]:fixed  w-50 top-10 right-0  max-[1150px]:translate-x-[100%]  dark:border-none border-gray-800 border-l dark:bg-[#232428]  h-full",openProfile && "max-[1150px]:translate-x-[0%]")}>
+    <div className={cn("bg-white px-2 z-[100] max-[1150px]:fixed  w-50 top-10 right-0  max-[1150px]:translate-x-[100%]  dark:border-none border-gray-800 border-l dark:bg-[#232428]  h-full",openProfile && "max-[1150px]:translate-x-[0%]")}>
       {/* top heading */}
       <div className="bg-[#ED4545] relative  w-full h-28">
       <button onClick={()=>onClose()} className="w-8 hidden justify-center  items-center ml-2 mt-1 h-8 max-[1150px]:flex  absolute bg-gray-800 rounded-full px-1 py-1 ">

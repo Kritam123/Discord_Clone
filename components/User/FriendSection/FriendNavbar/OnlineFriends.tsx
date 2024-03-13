@@ -10,19 +10,19 @@ const FriendAll = ({ profile }: any) => {
   if (isLoading) {
     return (
       <div className=' flex-[2]  border-r dark:border-gray-500 border-gray-300 px-5 py-3'>
-      <div className='flex flex-col gap-1'>
-        {[...Array(4)].map((_, i) => (
-          <AllUserBoxSkeleton key={i} />
+        <div className='flex flex-col gap-1'>
+          {[...Array(4)].map((_, i) => (
+            <AllUserBoxSkeleton key={i} />
           ))}
+        </div>
       </div>
-    </div>
     )
 
   }
   return (
     <div className="flex flex-[2]  h-full px-5 py-3 flex-col gap-4 border-r dark:border-gray-500 border-gray-300  ">
       {
-        
+
         !!data?.length ? (
           <>
             {
@@ -36,9 +36,9 @@ const FriendAll = ({ profile }: any) => {
           :
           <div className='justify-center flex flex-col h-full items-center'>
             <Image
-             width={250}
-             height={250}
-             className=' lg:w-[450px] lg:h-[450px]'
+              width={250}
+              height={250}
+              className=' lg:w-[450px] lg:h-[450px]'
               src={"/images/b36de980b174d7b798c89f35c116e5c6.svg"}
               alt="svg"
             />

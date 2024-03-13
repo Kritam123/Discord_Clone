@@ -7,9 +7,9 @@ interface UserHeaderPartProps {
 }
 const HeaderPart = ({imageUrl,displayName,name}:UserHeaderPartProps) => {
   return (
-    <div className="px-5  ">
+    <div className="md:px-5 px-2">
       {/* avatar //pic */}
-      <Avatar  className="w-32 h-32 ">
+      <Avatar  className="md:w-32 md:h-32 h-24 w-24 ">
         <AvatarImage src={imageUrl} />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -28,9 +28,9 @@ const HeaderPart = ({imageUrl,displayName,name}:UserHeaderPartProps) => {
           <Avatar className="absolute  w-6 h-6 left-7 " />
           {/* mutal server */}
         </div>
-        <span className="text-black dark:text-gray-400 text-md">3 mutal server</span>
+        <span className="text-black md:block hidden dark:text-gray-400 text-sm md:text-md">3 mutal server</span>
 
-        <div className="flex gap-2 ml-8">
+        <div className=" md:flex hidden gap-2 md:ml-8 ml-3">
           <button className="px-3 active:bg-[#5865f2d4] hover:bg-[#5865f276] rounded-md text-white text-sm bg-[#5865F2]">Add Friend</button>
           <button className="px-3 hover:bg-[#6a6d78] rounded-md text-sm text-white bg-[#4E5058] active:bg-[#4E5058]">Block</button>
           <button className=" hover:bg-[#e85358a5] px-3  text-sm text-white rounded-md  py-[2px] active:bg-[#DA373C] bg-[#DA373C]">Report Spam</button>

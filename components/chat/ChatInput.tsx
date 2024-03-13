@@ -42,9 +42,9 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => (e.key === "Enter" ? onSubmit(value) : null)}
-          className="w-full bg-transparent text-gray-300  px-2 py-2 outline-none border-none"
+          className="w-full placeholder:sm:text-[14px] text-[12px] bg-transparent text-gray-300  px-2 py-2 outline-none border-none"
         />
-        <AiFillGift className="w-8 h-8 text-gray-400 hover:text-white cursor-pointer" />
+        <AiFillGift className="w-8 h-8 sm:block hidden text-gray-400 hover:text-white cursor-pointer" />
         <EmojiPicker
           onChange={(emoji: string) => setValue(`${value}${emoji}`)}
         />

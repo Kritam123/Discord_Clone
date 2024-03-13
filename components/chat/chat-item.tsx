@@ -126,7 +126,7 @@ export const ChatItem = ({
             <div className="flex items-center">
               <p
                 onClick={onMemberClick}
-                className=" text-balck dark:text-zinc-100 text-[16px] capitalize hover:underline cursor-pointer"
+                className=" text-black sm:text-[16px] max-[400px]:text-[12px] text-[14px] dark:text-zinc-100  capitalize hover:underline cursor-pointer"
               >
 
                 {user ? user?.username : member?.profile?.username}
@@ -172,7 +172,7 @@ export const ChatItem = ({
               href={fileUrl as string}
               target="_blank"
               rel="noopener noreferrer"
-              className="relative aspect-square rounded-md mt-2 overflow-hidden border flex items-center bg-secondary h-48 w-72"
+              className="relative aspect-square rounded-md mt-2 overflow-hidden border flex items-center bg-secondary md:h-48 h-36 w-48 md:w-72"
             >
               <video
                 src={fileUrl as string}

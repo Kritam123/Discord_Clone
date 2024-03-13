@@ -35,7 +35,7 @@ const Navbar = () => {
             </nav>
             <div className="flex gap-5 items-center ">
                 {/* button Join */}
-                <button onClick={handleRoute} className="outline-none hover:text-cyan-500 hover:shadow-lg hidden sm:block  border-none px-3 py-2 text-[14px] text-gray-500 rounded-2xl bg-white shadow-md">
+                <button onClick={handleRoute} className="outline-none hover:text-cyan-500 hover:shadow-lg block  border-none px-3 py-2 text-[14px] text-gray-500 rounded-2xl bg-white shadow-md">
                     Open Discord
                 </button>
                 {/* hambaurger */}
